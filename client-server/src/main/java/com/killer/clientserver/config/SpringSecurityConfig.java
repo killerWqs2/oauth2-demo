@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * 都快过去四个月了
  * @date 2019/08/11 - 14:09
  */
-@EnableOAuth2Sso
+// @EnableOAuth2Sso
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -41,7 +41,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 为什么没有管用, 也就是说在到达判断权限的那一步之前就被干掉了
-        web.ignoring().antMatchers("/static/**");
+        web.ignoring().antMatchers("/static/**", "/favicon.ico");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // 这一行应该没有必要
             // .antMatchers("/static/**").anonymous()
-            .antMatchers("/oauth/**").anonymous()
+            .antMatchers("/api/**", "/oauth/**").anonymous()
             .anyRequest().authenticated()
             .and()
             .formLogin().loginPage("/static/login.html")
@@ -63,10 +63,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizationCodeGrant() // 用来配置授权码配置
                 .authorizationRequestResolver(oAuth2AuthorizationRequestResolver(clientRegistrationRepository)); // 用来配置转换oauth2请求
 
+        // http.oauth2Client() 如果有多个第三方资源需要访问
+
         http.oauth2Login().loginProcessingUrl("/oauth/login").loginPage("/static/login.html")
                 .authorizationEndpoint().baseUri("/v1/register")
-                .and()
-                .redirectionEndpoint().baseUri("/oauth/token")
+                // .and()
+                // .redirectionEndpoint().baseUri("/oauth/token")
                 .and()
                 .tokenEndpoint().accessTokenResponseClient(authorizationCodeTokenResponseClient())
                 .and()
@@ -85,7 +87,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public OAuth2AuthorizationRequestResolver oAuth2AuthorizationRequestResolver(ClientRegistrationRepository registrationRepository) {
-        return new DefaultOAuth2AuthorizationRequestResolver(registrationRepository, "/oauth/api/");
+        return new DefaultOAuth2AuthorizationRequestResolver(registrationRepository, "/api/test");
     }
 
     // @Bean

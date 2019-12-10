@@ -64,16 +64,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // 使用授权码模式进行授权
                 .withClient("stragory")
                 .secret("$2a$10$J9fGzwblYSR0TxeBNjtJC.wCyhN4cSnEHaEqYFQsdKVR7K5fWk0tu")
-                .redirectUris("http://localhost:8002/oauth/1")
+                .redirectUris("http://client-server:8002/oauth/token")
                 .authorizedGrantTypes("authorization_code")
-                .scopes("all")
+                .scopes("all", "part")
+                .autoApprove("all") //作用暂时未知
                 .and()
 
                 // 使用隐式授权
                 .withClient("SwordArtOnline")
                 .secret("$2a$10$J9fGzwblYSR0TxeBNjtJC.wCyhN4cSnEHaEqYFQsdKVR7K5fWk0tu")
                 .redirectUris("http://localhost:6666/api/sao")
-                // 这个模式为什么要叫 implicit 含蓄的；暗示的；盲从的
                 .authorizedGrantTypes("implicit")
                 .and()
 
@@ -102,11 +102,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         super.configure(endpoints);
-        endpoints.authorizationCodeServices(jdbcAuthorizationCodeServices());
+        endpoints.authorizationCodeServices(jdbcAuthorizationCodeServices()); // 配置code生成，存储
         // endpoints.authenticationManager(this.authenticationManager);
 
         // 需要设置oauth2登录页面
-        endpoints.tokenStore(new RedisTokenStore(lettuceConnectionFactory()));
+        endpoints.tokenStore(new RedisTokenStore(lettuceConnectionFactory())); // 配置token生成，存储
     }
 
     @Bean
@@ -118,7 +118,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public LettuceConnectionFactory lettuceConnectionFactory() {
         LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
         RedisStandaloneConfiguration configuration = lettuceConnectionFactory.getStandaloneConfiguration();
-        configuration.setHostName("http://47.107.106.214/");
+        configuration.setHostName("47.107.106.214");
         configuration.setDatabase(5);
         configuration.setPassword("killerWqs");
         return lettuceConnectionFactory;

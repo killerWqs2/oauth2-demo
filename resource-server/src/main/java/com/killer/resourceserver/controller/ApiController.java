@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("api")
 public class ApiController  {
 
-    @GetMapping("say")
+    @GetMapping("test")
     public String say(HttpServletRequest request, HttpServletResponse response) {
-        return "Hello a";
+        return "Hello";
     }
 
 }

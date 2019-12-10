@@ -20,7 +20,7 @@ public class WebMcConfig implements WebMvcConfigurer {
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setSuffix(".html");
-        resolver.setPrefix("/static");
+        resolver.setPrefix("/static/");
         registry.viewResolver(resolver);
     }
 
