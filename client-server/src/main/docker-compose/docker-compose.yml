@@ -1,0 +1,18 @@
+# 容器编排
+version: 1
+
+services:
+  resource-server:
+    build: F:\2019-7\resource-server\src\main\resources\
+    ports:
+      - 8003:8003
+
+  authorization-server:
+    build: F:\2019-7\authorization-server\src\main\resources\
+    ports:
+      - 8001:8001
+
+  client-server:
+    build: F:\2019-7\client-server\src\main\resources\
+    ports:
+      - 8002:8002
