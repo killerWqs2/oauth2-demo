@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -58,7 +59,6 @@ public class  SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
-        auth.authenticationProvider(oAuth2TokenAuthenticationProvider(clientDetailsService));
         auth.inMemoryAuthentication().withUser("killer").password("wqsqzj");
     }
 
@@ -77,5 +77,16 @@ public class  SecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println(a == b);
 
         System.out.println(null == null);
+    }
+
+    /**配置全局的AuthenticationManager*/
+    @Configuration
+    public class AuthenticationManagerConfig extends GlobalAuthenticationConfigurerAdapter {
+
+        @Override
+        public void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.authenticationProvider(oAuth2TokenAuthenticationProvider(clientDetailsService));
+        }
+
     }
 }
