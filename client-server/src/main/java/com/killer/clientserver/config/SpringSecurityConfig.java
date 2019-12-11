@@ -74,10 +74,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .userInfoEndpoint().userService(openIdUserDetailService());
         // oauth2Login 就是用于第三方登录， oauth2Client 就是用于oauth2通信细节, 开启这个登录界面也会发生变化
-
-        // TODO 用于从authorizationserver 获取token
-        // http.addFilterAfter(oAuth2ClientAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class);
-
     }
 
     @Bean

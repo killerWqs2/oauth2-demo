@@ -47,6 +47,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         super.configure(security);
 
+        // 这一块没有好好研究
         security.allowFormAuthenticationForClients();
         // 貌似这里的配置很重要
         // 这里应该校验client是否正确？？
@@ -63,7 +64,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
                 // 使用授权码模式进行授权
                 .withClient("stragory")
-                .secret("$2a$10$J9fGzwblYSR0TxeBNjtJC.wCyhN4cSnEHaEqYFQsdKVR7K5fWk0tu")
+                .secret("{noop}$2a$10$J9fGzwblYSR0TxeBNjtJC.wCyhN4cSnEHaEqYFQsdKVR7K5fWk0tu")
                 .redirectUris("http://client-server:8002/oauth/token")
                 .authorizedGrantTypes("authorization_code")
                 .scopes("all", "part")
@@ -119,77 +120,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
         RedisStandaloneConfiguration configuration = lettuceConnectionFactory.getStandaloneConfiguration();
         configuration.setHostName("47.107.106.214");
-        configuration.setDatabase(5);
+        configuration.setDatabase(3);
         configuration.setPassword("killerWqs");
         return lettuceConnectionFactory;
-    }
-
-    private class MyRedisTokenStore implements TokenStore {
-
-        @Override
-        public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
-            return null;
-        }
-
-        @Override
-        public OAuth2Authentication readAuthentication(String token) {
-            return null;
-        }
-
-        @Override
-        public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
-
-        }
-
-        @Override
-        public OAuth2AccessToken readAccessToken(String tokenValue) {
-            return null;
-        }
-
-        @Override
-        public void removeAccessToken(OAuth2AccessToken token) {
-
-        }
-
-        @Override
-        public void storeRefreshToken(OAuth2RefreshToken refreshToken, OAuth2Authentication authentication) {
-
-        }
-
-        @Override
-        public OAuth2RefreshToken readRefreshToken(String tokenValue) {
-            return null;
-        }
-
-        @Override
-        public OAuth2Authentication readAuthenticationForRefreshToken(OAuth2RefreshToken token) {
-            return null;
-        }
-
-        @Override
-        public void removeRefreshToken(OAuth2RefreshToken token) {
-
-        }
-
-        @Override
-        public void removeAccessTokenUsingRefreshToken(OAuth2RefreshToken refreshToken) {
-
-        }
-
-        @Override
-        public OAuth2AccessToken getAccessToken(OAuth2Authentication authentication) {
-            return null;
-        }
-
-        @Override
-        public Collection<OAuth2AccessToken> findTokensByClientIdAndUserName(String clientId, String userName) {
-            return null;
-        }
-
-        @Override
-        public Collection<OAuth2AccessToken> findTokensByClientId(String clientId) {
-            return null;
-        }
     }
 
 }

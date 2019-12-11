@@ -38,7 +38,7 @@ public class  SecurityConfig extends WebSecurityConfigurerAdapter {
         // super.configure(http);
         http
             // .authorizeRequests().antMatchers("/test/**").authenticated().anyRequest().anonymous()
-            .authorizeRequests().antMatchers("/oauth/token").anonymous().anyRequest().authenticated()
+            .authorizeRequests().anyRequest().authenticated()
             .and()
             // 这里的loginpage到底指向的是什么，不是从DefaultLoginPageGeneratingFilter过来的，下面两个参数应该是暴露出去的
             .formLogin().loginPage("/static/login.html").loginProcessingUrl("/login")
@@ -58,8 +58,8 @@ public class  SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
-        auth.inMemoryAuthentication().withUser("killer").password("wqsqzj");
+        // super.configure(auth);
+        auth.inMemoryAuthentication().withUser("killer").password("{noop}wqsqzj").authorities("test");
     }
 
     @Bean
