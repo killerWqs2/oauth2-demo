@@ -1,6 +1,6 @@
 package com.killer.resourceserver.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.killer.resourceserver.common.R;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ApiController  {
 
     @GetMapping("test")
-    public String say(HttpServletRequest request, HttpServletResponse response) {
-        return "Hello";
+    public R say(HttpServletRequest request, HttpServletResponse response) {
+        return R.ok("Hello OAuth2!");
     }
 
 }

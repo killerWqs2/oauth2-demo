@@ -22,13 +22,12 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                // 对 "/api/**" 开启认证
-                .anyRequest()
-                .authenticated()
+        http.requestMatchers()
+                .antMatchers("/api/**") // 该filter过滤api接口
                 .and()
-                .requestMatchers()
-                .antMatchers("/api/**");
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated();
     }
 
     @Override
@@ -43,8 +42,8 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     public LettuceConnectionFactory lettuceConnectionFactory() {
         LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
         RedisStandaloneConfiguration configuration = lettuceConnectionFactory.getStandaloneConfiguration();
-        configuration.setHostName("http://47.107.106.214/");
-        configuration.setDatabase(5);
+        configuration.setHostName("47.107.106.214");
+        configuration.setDatabase(3);
         configuration.setPassword("killerWqs");
         return lettuceConnectionFactory;
     }

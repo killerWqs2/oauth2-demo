@@ -65,7 +65,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // 使用授权码模式进行授权
                 .withClient("stragory")
                 .secret("{noop}$2a$10$J9fGzwblYSR0TxeBNjtJC.wCyhN4cSnEHaEqYFQsdKVR7K5fWk0tu")
-                .redirectUris("http://client-server:8002/api/")
+                .redirectUris("http://client-server:8002/api/say")
                 .authorizedGrantTypes("authorization_code")
                 .scopes("all", "part")
                 .autoApprove("all") //作用暂时未知

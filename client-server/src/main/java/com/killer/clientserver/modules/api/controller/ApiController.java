@@ -2,20 +2,24 @@ package com.killer.clientserver.modules.api.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author killer
@@ -27,25 +31,32 @@ import java.security.Principal;
 public class ApiController {
 
     @Autowired
-    private OAuth2AuthorizedClientRepository auth2AuthorizedClientRepository;
+    private OAuth2AuthorizedClientRepository clientRepository;
 
     @Autowired
     private HttpServletRequest request;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate restTemplate = new RestTemplate();
 
-    @GetMapping("test")
-    public void test(Authentication authentication) {
+    @GetMapping("say")
+    public Map<String, Object> say(Authentication authentication) {
 
-        // 这种方式已重启用户信息就没有了
-        OAuth2AuthorizationCodeAuthenticationToken authenticationToken = (OAuth2AuthorizationCodeAuthenticationToken)authentication;
-        // ClientRegistration clientRegistration = authenticationToken.getClientRegistration();
-        // auth2AuthorizedClientRepository.loadAuthorizedClient(, principal.getName(), request); 这个可以存储到外面
-        // 通过Rest请求获取资源
+        // clientRegistration.
+        // switch (clientRegistration.getClientName()) {
+        //     case "ac":
+        OAuth2AuthorizedClient auth2AuthorizedClient = clientRepository.loadAuthorizedClient("ac", authentication, request);
+        HashMap<String, Object> result = new HashMap<>();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer" + auth2AuthorizedClient.getAccessToken().getTokenValue());
+        HttpEntity<HashMap<String, Object>> httpEntity = new HttpEntity<>(result, httpHeaders);
+        ResponseEntity<HashMap> response = restTemplate.exchange("http://resource-server:8003/api/test", HttpMethod.GET, httpEntity, HashMap.class);
 
-        String tokenValue = authenticationToken.getAccessToken().getTokenValue();
-
+        // 应该是实现token过期刷新机制
+        //         return result;
+        //     default:
+        //         return null;
+        // }
+        return response.getBody();
     }
 
 }

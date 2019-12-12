@@ -51,8 +51,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 这一行应该没有必要
             // .antMatchers("/static/**").anonymous()
             .antMatchers("/api/**", "/oauth/**").anonymous()
-            .anyRequest().authenticated()
-            .and()
+                .anyRequest().authenticated()
+                .and()
             .formLogin().loginPage("/static/login.html")
             .and()
             .csrf().disable();
