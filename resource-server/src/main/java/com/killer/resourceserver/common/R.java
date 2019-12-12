@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class R {
 
-    private R() {};
+    private R() {}
 
     public static Map<String, Object> ok(Object data) {
         HashMap<String, Object> map = new HashMap(3);

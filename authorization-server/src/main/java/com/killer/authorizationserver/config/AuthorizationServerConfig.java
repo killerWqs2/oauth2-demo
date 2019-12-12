@@ -47,15 +47,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         super.configure(security);
 
-        // 这一块没有好好研究
-        security.allowFormAuthenticationForClients();
-        // 貌似这里的配置很重要
-        // 这里应该校验client是否正确？？
-        // security.authenticationEntryPoint()
-        // security.addTokenEndpointAuthenticationFilter(); 这个是添加filter的方法，可是filter主要是用来干什么的呢？？？
-
-        // 允许所有的/oauth/token_key 访问
+        // security.allowFormAuthenticationForClients(); 这一步允许从requestParams中获取client-id, client-secret
         security.tokenKeyAccess("permitAll()");
+
     }
 
     @Override
