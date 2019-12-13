@@ -67,8 +67,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.oauth2Login().loginProcessingUrl("/oauth/login").loginPage("/static/login.html")
                 .authorizationEndpoint().baseUri("/v1/register")
-                // .and()
-                // .redirectionEndpoint().baseUri("/oauth/token")
+                .and()
+                .redirectionEndpoint().baseUri("/oauth/token") //应该是获取第三方用户token的，而不是oauth token
                 .and()
                 .tokenEndpoint().accessTokenResponseClient(authorizationCodeTokenResponseClient())
                 .and()
