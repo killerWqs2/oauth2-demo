@@ -107,7 +107,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     //     return authorizedClientManager;
     // }
 
-
     /**以下Bean用于OAuth2Login*/
     @Bean("MyAccessTokenResponseClient")
     public DefaultAuthorizationCodeTokenResponseClient authorizationCodeTokenResponseClient() {
