@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * 都快过去四个月了
  * @date 2019/08/11 - 14:09
  */
-// @EnableOAuth2Sso
+@EnableOAuth2Sso
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 

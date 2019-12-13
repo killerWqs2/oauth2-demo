@@ -68,7 +68,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // 使用隐式授权
                 .withClient("SwordArtOnline")
                 .secret("$2a$10$J9fGzwblYSR0TxeBNjtJC.wCyhN4cSnEHaEqYFQsdKVR7K5fWk0tu")
-                .redirectUris("http://localhost:6666/api/sao")
+                .redirectUris("http://client-server:8002/api/say")
                 .authorizedGrantTypes("implicit")
                 .and()
 
