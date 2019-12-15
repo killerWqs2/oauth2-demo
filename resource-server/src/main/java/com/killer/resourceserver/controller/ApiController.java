@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * @author killer
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ApiController  {
 
     @GetMapping("test")
-    public R say(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> say(HttpServletRequest request, HttpServletResponse response) {
         return R.ok("Hello OAuth2!");
     }
 

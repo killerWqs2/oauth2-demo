@@ -46,9 +46,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         super.configure(security);
-
-        // security.allowFormAuthenticationForClients(); 这一步允许从requestParams中获取client-id, client-secret
-        security.tokenKeyAccess("permitAll()");
+        // security.authenticationEntryPoint() 用来exception 跳转
+        security.allowFormAuthenticationForClients() // 这一步允许从requestParams中获取client-id, client-secret，设置校验client的功能
+                .tokenKeyAccess("permitAll()");
 
     }
 

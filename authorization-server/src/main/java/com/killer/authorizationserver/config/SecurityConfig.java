@@ -38,15 +38,17 @@ public class  SecurityConfig extends WebSecurityConfigurerAdapter {
         // super.configure(http);
         http
             // .authorizeRequests().antMatchers("/test/**").authenticated().anyRequest().anonymous()
+            //    auth/authorize 会走这边，可是为什么要走这边呢？
             .authorizeRequests().anyRequest().authenticated()
             .and()
-            // 这里的loginpage到底指向的是什么，不是从DefaultLoginPageGeneratingFilter过来的，下面两个参数应该是暴露出去的
+            // // 这里的loginpage到底指向的是什么，不是从DefaultLoginPageGeneratingFilter过来的，下面两个参数应该是暴露出去的
             .formLogin().loginPage("/static/login.html").loginProcessingUrl("/login")
                 .failureHandler((request, response, exception) -> response.sendError(10001, "用户名或密码错误")).permitAll()
             // .and()
-            // .httpBasic().disable()
+            // .httpBasic()
             .and()
             .csrf().disable();
+
         // http.authorizeRequests().antMatchers("/**").permitAll();
         // http.exceptionHandling().authenticationEntryPoint().accessDeniedHandler() 配置 exceptiontranslatorfilter
     }

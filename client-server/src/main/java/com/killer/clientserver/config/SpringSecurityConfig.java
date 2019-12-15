@@ -1,9 +1,9 @@
 package com.killer.clientserver.config;
 
+import com.killer.clientserver.common.security.ApiOAuth2ExceptionRender;
 import com.killer.clientserver.security.oauth2.converter.message.QQOAuth2AccessTokenResHttpMessageConverter;
 import com.killer.clientserver.security.oauth2.userservice.OpenIdUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -13,15 +13,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
  * 都快过去四个月了
  * @date 2019/08/11 - 14:09
  */
-@EnableOAuth2Sso
+// @EnableOAuth2Sso
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -46,17 +45,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        OAuth2AuthenticationEntryPoint oAuth2AuthenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
+        oAuth2AuthenticationEntryPoint.setExceptionRenderer(new ApiOAuth2ExceptionRender());
+
         // httpSecurity 是用来构建SecurityFilterChain, websecurity是用来构建FilterChainProxy, FilterChainProxy 可以包含多个SecurityFilterChain
         http.authorizeRequests()
-                // 这一行应该没有必要
-            // .antMatchers("/static/**").anonymous()
-            .antMatchers("/api/**", "/oauth/**").anonymous()
-                .anyRequest().authenticated()
+            .antMatchers("/oauth/**").authenticated()
                 .and()
-            .formLogin().loginPage("/static/login.html")
+            .formLogin().loginPage("/static/index.html").permitAll()
             .and()
-            .csrf().disable();
+            .csrf().disable()
+                .exceptionHandling().defaultAuthenticationEntryPointFor(oAuth2AuthenticationEntryPoint, new AntPathRequestMatcher("/api/say"));
 
+        // 貌似没有配置从AuthenticationFilter中获取Authentication
         http.oauth2Client()
                 .clientRegistrationRepository(clientRegistrationRepository)
                 .authorizedClientRepository(new HttpSessionOAuth2AuthorizedClientRepository())
@@ -65,7 +66,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // http.oauth2Client() 如果有多个第三方资源需要访问
 
-        http.oauth2Login().loginProcessingUrl("/oauth/login").loginPage("/static/login.html")
+        http.oauth2Login().loginProcessingUrl("/oauth/login").loginPage("/static/index.html")
                 .authorizationEndpoint().baseUri("/v1/register")
                 .and()
                 .redirectionEndpoint().baseUri("/oauth/token") //应该是获取第三方用户token的，而不是oauth token
@@ -83,7 +84,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public OAuth2AuthorizationRequestResolver oAuth2AuthorizationRequestResolver(ClientRegistrationRepository registrationRepository) {
-        return new DefaultOAuth2AuthorizationRequestResolver(registrationRepository, "/api/test");
+        return new DefaultOAuth2AuthorizationRequestResolver(registrationRepository, "/api/say");
     }
 
     // @Bean
