@@ -6,6 +6,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
@@ -45,6 +46,12 @@ public class ApiController {
         // switch (clientRegistration.getClientName()) {
         //     case "ac":
         OAuth2AuthorizedClient auth2AuthorizedClient = clientRepository.loadAuthorizedClient("ac", authentication, request);
+
+        // 这里相当于变相的校验认证，实际上是在校验auth2AuthorizedClient
+        if(auth2AuthorizedClient == null) {
+            throw new InsufficientAuthenticationException("oauth2 token not access");
+        }
+
         HashMap<String, Object> result = new HashMap<>();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer" + auth2AuthorizedClient.getAccessToken().getTokenValue());

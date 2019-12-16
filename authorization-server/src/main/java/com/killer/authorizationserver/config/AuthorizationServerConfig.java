@@ -67,9 +67,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
                 // 使用隐式授权
                 .withClient("SwordArtOnline")
-                .secret("$2a$10$J9fGzwblYSR0TxeBNjtJC.wCyhN4cSnEHaEqYFQsdKVR7K5fWk0tu")
-                .redirectUris("http://client-server:8002/api/say")
+                .redirectUris("http://resource-server:8003/api/hello")
                 .authorizedGrantTypes("implicit")
+                .autoApprove("all")
                 .and()
 
                 // 使用客户端凭证授权
