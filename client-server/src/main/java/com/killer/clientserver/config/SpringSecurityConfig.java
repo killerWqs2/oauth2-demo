@@ -4,6 +4,7 @@ import com.killer.clientserver.common.security.ApiOAuth2ExceptionRender;
 import com.killer.clientserver.security.oauth2.converter.message.QQOAuth2AccessTokenResHttpMessageConverter;
 import com.killer.clientserver.security.oauth2.userservice.OpenIdUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
  * 都快过去四个月了
  * @date 2019/08/11 - 14:09
  */
-// @EnableOAuth2Sso
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -49,11 +49,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         oAuth2AuthenticationEntryPoint.setExceptionRenderer(new ApiOAuth2ExceptionRender());
 
         // httpSecurity 是用来构建SecurityFilterChain, websecurity是用来构建FilterChainProxy, FilterChainProxy 可以包含多个SecurityFilterChain
-        http.authorizeRequests()
+        http
+            .requestMatchers().antMatchers("/oauth/**")
+            .and()
+            .authorizeRequests()
             // .antMatchers("/oauth/**", "/api/**").authenticated() oauth2api是不需要认证的，因为会和本身系统的认证冲突，只需要使用session保存信息就好了
             .antMatchers("/oauth/**").authenticated()
                 .and()
-            .formLogin().loginPage("/static/index.html").permitAll()
+            .formLogin().loginPage("/static/index.html").loginProcessingUrl("/login").permitAll()
             .and()
             .csrf().disable()
                 .exceptionHandling().defaultAuthenticationEntryPointFor(oAuth2AuthenticationEntryPoint, new AntPathRequestMatcher("/api/say"));
@@ -76,6 +79,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .userInfoEndpoint().userService(openIdUserDetailService());
         // oauth2Login 就是用于第三方登录， oauth2Client 就是用于oauth2通信细节, 开启这个登录界面也会发生变化
+
+        http.logout().logoutUrl("/logout").logoutSuccessUrl("/");
     }
 
     @Bean
