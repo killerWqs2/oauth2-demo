@@ -50,8 +50,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // httpSecurity 是用来构建SecurityFilterChain, websecurity是用来构建FilterChainProxy, FilterChainProxy 可以包含多个SecurityFilterChain
         http
-            .requestMatchers().antMatchers("/oauth/**")
-            .and()
+            // .requestMatchers().antMatchers("/oauth/**")
+            // .and()
             .authorizeRequests()
             // .antMatchers("/oauth/**", "/api/**").authenticated() oauth2api是不需要认证的，因为会和本身系统的认证冲突，只需要使用session保存信息就好了
             .antMatchers("/oauth/**").authenticated()
@@ -59,7 +59,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin().loginPage("/static/index.html").loginProcessingUrl("/login").permitAll()
             .and()
             .csrf().disable()
-                .exceptionHandling().defaultAuthenticationEntryPointFor(oAuth2AuthenticationEntryPoint, new AntPathRequestMatcher("/api/say"));
+                .exceptionHandling().defaultAuthenticationEntryPointFor(oAuth2AuthenticationEntryPoint, new AntPathRequestMatcher("/api/say"))
+            .and()
+            .rememberMe().tokenValiditySeconds(2592000);
 
         // 貌似没有配置从AuthenticationFilter中获取Authentication
         http.oauth2Client()

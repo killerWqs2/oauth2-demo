@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/authorization-server/authorization-server.iml" filepath="$PROJECT_DIR$/authorization-server/authorization-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cas-keycloak/cas-keycloak.iml" filepath="$PROJECT_DIR$/cas-keycloak/cas-keycloak.iml" />
       <module fileurl="file://$PROJECT_DIR$/client-server/client-server.iml" filepath="$PROJECT_DIR$/client-server/client-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/client-server-sso-1/clientserversso1.iml" filepath="$PROJECT_DIR$/client-server-sso-1/clientserversso1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/client-server-sso-2/clientserversso2.iml" filepath="$PROJECT_DIR$/client-server-sso-2/clientserversso2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/oauth2-demo.iml" filepath="$PROJECT_DIR$/.idea/oauth2-demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/resource-server/resource-server.iml" filepath="$PROJECT_DIR$/resource-server/resource-server.iml" />
     </modules>
