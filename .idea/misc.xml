@@ -12,6 +12,7 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/client-server-sso-1/pom.xml" />
+        <option value="$PROJECT_DIR$/wqs-cas-server/pom.xml" />
       </list>
     </option>
   </component>

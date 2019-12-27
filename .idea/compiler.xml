@@ -6,32 +6,43 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="clientserversso2" />
         <module name="resource-server" />
         <module name="client-server" />
         <module name="authorization-server" />
-        <module name="clientserversso1" />
-        <module name="cas-keycloak" />
+        <module name="client-server-sso-2" />
+        <module name="client-server-sso-1" />
+        <module name="cas-keycloak-client-2" />
+        <module name="wqs-cas-server" />
+      </profile>
+      <profile name="Annotation profile for oauth2-demo" enabled="true">
+        <sourceOutputDir name="../cas-keycloak/target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../cas-keycloak/target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cas-keycloak-client-1" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="authorization-server" target="1.8" />
-      <module name="cas-keycloak" target="1.8" />
+      <module name="cas-keycloak-client-1" target="1.8" />
+      <module name="cas-keycloak-client-2" target="1.8" />
       <module name="client-server" target="1.8" />
-      <module name="clientserversso1" target="1.8" />
-      <module name="clientserversso2" target="1.8" />
+      <module name="client-server-sso-1" target="1.8" />
+      <module name="client-server-sso-2" target="1.8" />
       <module name="oauth2-demo" target="1.5" />
       <module name="resource-server" target="1.8" />
+      <module name="wqs-cas-server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="authorization-server" options="-parameters" />
-      <module name="cas-keycloak" options="-parameters" />
+      <module name="cas-keycloak-client-1" options="-parameters" />
+      <module name="cas-keycloak-client-2" options="-parameters" />
       <module name="client-server" options="-parameters" />
-      <module name="clientserversso1" options="-parameters" />
-      <module name="clientserversso2" options="-parameters" />
+      <module name="client-server-sso-1" options="-parameters" />
+      <module name="client-server-sso-2" options="-parameters" />
       <module name="resource-server" options="-parameters" />
+      <module name="wqs-cas-server" options="-parameters" />
     </option>
   </component>
 </project>
