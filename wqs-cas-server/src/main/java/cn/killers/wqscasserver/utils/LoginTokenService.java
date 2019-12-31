@@ -1,5 +1,6 @@
 package cn.killers.wqscasserver.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.token.Token;
 import org.springframework.security.core.token.TokenService;
 
@@ -11,6 +12,9 @@ import org.springframework.security.core.token.TokenService;
 public class LoginTokenService implements TokenService {
 
     private TokenStore tokenStore;
+
+    @Value("#{project.token_expires_time}")
+    private int tokenExpiresTime;
 
     @Override
     public Token allocateToken(String s) {

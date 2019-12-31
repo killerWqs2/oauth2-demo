@@ -20,7 +20,7 @@ public class RedisTokenStore implements TokenStore {
     }
 
     @Override
-    public Token removeToken() {
+    public Token removeToken(Token token) {
         return null;
     }
 

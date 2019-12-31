@@ -7,7 +7,7 @@ public interface TokenStore {
 
     Token allocateToken(Authentication authentication);
 
-    Token removeToken();
+    Token removeToken(Token token);
 
     Token getToken();
 
