@@ -7,10 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body style="padding: 10px">
     <a class="btn btn-success authcode" href="http://client-server:8002/api/say/ac">my auth-server 授权</a>
     <a class="btn btn-warning implicit" href="http://client-server:8002/api/say/im">anthor auth-server 授权</a>
 </body>
+
+<script>
+    $.get({url: "http://localhost:2001/login/cookie", xhrFields: { withCredentials: true }})
+</script>
 
 </html>

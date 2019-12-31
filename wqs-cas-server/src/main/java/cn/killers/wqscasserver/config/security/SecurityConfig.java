@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/token").authenticated()
                 .and()
-                .formLogin().loginPage("login").loginProcessingUrl("/login").permitAll();
+                .formLogin().loginPage("/login").loginProcessingUrl("/login").permitAll();
     }
+
 }
