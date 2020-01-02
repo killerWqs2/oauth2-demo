@@ -1,6 +1,7 @@
-package cn.killers.wqscasserver.utils;
+package cn.killers.wqscasserver.sso;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
  * @date 2019-12-31 17:02
  */
 @ConfigurationProperties(prefix = "project", ignoreUnknownFields = true, ignoreInvalidFields = false)
+@PropertySource("application.properties")
 @Component
 public class ProjectProperties {
 

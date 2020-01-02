@@ -11,10 +11,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * @author Wu QiaoSheng
- * @description 其实我更关心的是前台怎么无缝衔接的
+ * @description 其实我更关心的是前台怎么无缝衔接的，重定向只是请求级别的，不是页面级别的即可。嗯就是这样
+ *              token和 用户信息一样吗？？？ 我需要看一个大型项目来验证我的想法
  * @date 2019-12-27 16:31
  */
 @Controller
@@ -51,6 +54,10 @@ public class LoginController {
         ServletOutputStream outputStream = response.getOutputStream();
         outputStream.write("Hello world".getBytes());
         outputStream.flush();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(UUID.randomUUID().toString());
     }
 
 }

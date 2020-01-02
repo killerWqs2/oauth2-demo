@@ -1,4 +1,4 @@
-package cn.killers.wqscasserver.utils;
+package cn.killers.wqscasserver.sso;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.token.Token;
@@ -22,7 +22,7 @@ public class LoginTokenService implements TokenService {
         Token token = tokenStore.getToken();
 
         if(token == null) {
-            token = tokenStore.allocateToken();
+            // token = tokenStore.allocateToken();
         }
 
         return null;

@@ -1,6 +1,9 @@
 package cn.killers.wqscasserver.config.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,6 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/token").authenticated()
                 .and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/login").permitAll();
+    }
+
+    @Bean
+    public LettuceConnectionFactory lettuceConnectionFactory() {
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
+        RedisStandaloneConfiguration configuration = lettuceConnectionFactory.getStandaloneConfiguration();
+        configuration.setHostName("47.107.106.214");
+        configuration.setDatabase(10);
+        configuration.setPassword("killerWqs");
+        return lettuceConnectionFactory;
     }
 
 }
